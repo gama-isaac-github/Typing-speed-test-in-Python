@@ -1,5 +1,5 @@
 # Typing-speed-test-in-Python
-A small game project that tests how fast the player types using randomly chosen words.
+A small game project that tests how fast the player types using randomly chosen words. Was written in python using the Tkinter library to generate the interface.
 # How to play
 Click "Novo teste" to generate new random text, then click "Iniciar teste" and enter the generated text as quickly as possible, after finishing, click "Finalizar teste" and see the results.
 # Important
