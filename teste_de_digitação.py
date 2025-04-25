@@ -11,7 +11,7 @@ duracao_do_teste = 0
 
 def calcular_velocidade(quantidade_de_palavras):
     global duracao_do_teste
-
+    
     tempo_em_minutos = duracao_do_teste / 60
     velocidade = (quantidade_de_palavras / tempo_em_minutos)
     return velocidade
@@ -20,7 +20,7 @@ def escolher_texto():
     global texto_alvo
 
     # Abre o arquivo e armazena uma lista com todas as palavras dele
-    database = open('database.txt', 'r', encoding='utf-8')
+    database = open('words.txt', 'r', encoding='utf-8')
     palavras_do_database = (database.read()).split()
     palavras_escolhidas = []
 
@@ -75,39 +75,55 @@ Tamanho do teste: {quantidade_de_palavras} palavras
 Velocidade: {velocidade:.2f} WPM (words/minute)
 Acurácia (precisão): {precisao:.2f}%''')
 
-# Cria a janela inicial
-janela = Tk()
-janela.title('Velocidade de digitação')
-janela.geometry('600x500')
-janela.resizable(False, False)
+def criar_janela():
+    janela = Tk()
+    janela.title('Velocidade de digitação')
+    janela.geometry('600x500')
+    janela.resizable(False, False)
 
-# Iguala os pesos das colunas do grid para manter a interface simétrica e permitir centralizar elementos perfeitamente
-janela.columnconfigure(0, weight=1)
-janela.columnconfigure(1, weight=1)
-janela.columnconfigure(2, weight=1)
+    # Iguala os pesos das colunas do grid para manter a interface simétrica e permitir centralizar elementos perfeitamente
+    janela.columnconfigure(0, weight=1)
+    janela.columnconfigure(1, weight=1)
+    janela.columnconfigure(2, weight=1)
 
-# Titulo do programa
-titulo = Label(janela, text='Teste de digitação', font=('Jetbrains Mono', 18))
-titulo.grid(column=0, row=0, columnspan=3, sticky=EW, padx=10, pady=10)
+    return janela
 
-# Label com o texto-alvo a ser digitado
-label_texto_alvo = Label(janela, text='Digite as palavras que aparecerão aqui, clique em "Novo teste" e em seguida em "Iniciar teste", após finalizar, clique em "Finalizar teste"', font=('Arial', 12), wraplength=500)
-label_texto_alvo.grid(column=0, row=1, columnspan=3, sticky=EW, padx=10, pady=10)
+def criar_label_titulo(janela):
+    titulo = Label(janela, text='Teste de digitação', font=('Jetbrains Mono', 18))
+    titulo.grid(column=0, row=0, columnspan=3, sticky=EW, padx=10, pady=10)
 
-# Campo onde o usuário vai digitar
-campo_de_digitacao = Text(janela, width=70, height=5, wrap=WORD)
-campo_de_digitacao.grid(column=0, row=2, columnspan=3, sticky=EW, padx=10, pady=10)
+def criar_label_texto_alvo(janela):
+    global label_texto_alvo
+    label_texto_alvo = Label(janela, text='Digite as palavras que aparecerão aqui, clique em "Novo teste" e em seguida em "Iniciar teste", após finalizar, clique em "Finalizar teste"', font=('Arial', 12), wraplength=500)
+    label_texto_alvo.grid(column=0, row=1, columnspan=3, sticky=EW, padx=10, pady=10)
 
-novo_teste = Button(janela, text='Novo teste', command=escolher_texto)
-novo_teste.grid(column=0, row=3, sticky=N, padx=10, pady=10)
+def criar_campo_de_digitacao(janela):
+    global campo_de_digitacao
+    campo_de_digitacao = Text(janela, width=70, height=5, wrap=WORD)
+    campo_de_digitacao.grid(column=0, row=2, columnspan=3, sticky=EW, padx=10, pady=10)
 
-iniciar_teste = Button(janela, text='Iniciar teste', command=inicio_do_teste)
-iniciar_teste.grid(column=1, row=3, sticky=N, padx=10, pady=10)
+def criar_botoes(janela):
+    novo_teste = Button(janela, text='Novo teste', command=escolher_texto)
+    novo_teste.grid(column=0, row=3, sticky=N, padx=10, pady=10)
 
-iniciar_teste = Button(janela, text='Finalizar teste', command=final_do_teste)
-iniciar_teste.grid(column=2, row=3, sticky=N, padx=10, pady=10)
+    iniciar_teste = Button(janela, text='Iniciar teste', command=inicio_do_teste)
+    iniciar_teste.grid(column=1, row=3, sticky=N, padx=10, pady=10)
 
-resultado = Label(janela, text='', font=('Jetbrains Mono', 12), justify=LEFT)
-resultado.grid(column=0, row=4, columnspan=3, sticky=W, padx=10, pady=10)
+    iniciar_teste = Button(janela, text='Finalizar teste', command=final_do_teste)
+    iniciar_teste.grid(column=2, row=3, sticky=N, padx=10, pady=10)
 
-janela.mainloop()
+def criar_label_resultado(janela):
+    global resultado
+    resultado = Label(janela, text='', font=('Jetbrains Mono', 12), justify=LEFT)
+    resultado.grid(column=0, row=4, columnspan=3, sticky=W, padx=10, pady=10)
+
+if __name__ == '__main__':
+    janela = criar_janela()
+
+    criar_label_titulo(janela)
+    criar_label_texto_alvo(janela)
+    criar_campo_de_digitacao(janela)
+    criar_botoes(janela)
+    criar_label_resultado(janela)
+
+    janela.mainloop()
